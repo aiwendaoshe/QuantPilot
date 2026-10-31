@@ -1,9 +1,11 @@
-name: Build Windows
+name: CI
 
 on:
   push:
     branches: [main]
     tags: ['v*']
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 # 允许 action-gh-release 创建 Release
@@ -11,8 +13,66 @@ permissions:
   contents: write
 
 jobs:
+  lint:
+    name: Lint & Security
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Guard against leaked secrets / large files
+        shell: bash
+        run: |
+          # 阻止疑似敏感文件被跟踪
+          mapfile -t bad < <(git ls-files | grep -Ei '\.env$|\.env\.local$|id_rsa|id_ed25519|\.pem$|credentials\.json|\.npmrc$' || true)
+          if [ ${#bad[@]} -gt 0 ]; then
+            echo "::error::检测到疑似敏感文件被提交，请移除后重试:"
+            printf '%s\n' "${bad[@]}"
+            exit 1
+          fi
+          # 大于 10MB 的被跟踪文件告警（release/ 已被 .gitignore 排除，不会误报）
+          large=$(git ls-files -z | xargs -0 -I{} sh -c 'test -f "{}" && [ "$(stat -c%s "{}")" -gt 10485760 ] && echo "{}"' 2>/dev/null || true)
+          if [ -n "$large" ]; then
+            echo "::warning::仓库内存在大于 10MB 的文件，请确认非误提交:"
+            echo "$large"
+          fi
+
+      - name: Dependency audit (high & above)
+        run: npm audit --audit-level=high
+        # 已知传递依赖漏洞标黄但不阻断发版；如需严格门禁可删掉此行
+        continue-on-error: true
+
+  typecheck:
+    name: Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run typecheck gate
+        run: npm run typecheck
+
   build:
-    name: Build QuantPilot (Windows installer)
+    name: Build Windows installer
+    needs: [lint, typecheck]
     runs-on: windows-latest
     steps:
       - name: Checkout
@@ -36,9 +96,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Typecheck (gate)
-        run: npm run typecheck
 
       - name: Build & package Windows installer
         run: npm run dist:win
