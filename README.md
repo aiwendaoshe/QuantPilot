@@ -1,6 +1,12 @@
 # QuantPilot · 专业 A 股短线选股桌面软件
 
+[![Build Windows](https://github.com/aiwendaoshe/QuantPilot/actions/workflows/build.yml/badge.svg)](https://github.com/aiwendaoshe/QuantPilot/actions/workflows/build.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/aiwendaoshe/QuantPilot?label=release)](https://github.com/aiwendaoshe/QuantPilot/releases)
+
 技术栈：**Electron + Vue 3 + TypeScript(strict) + Vite + Pinia + TailwindCSS + ECharts + better-sqlite3**
+
+> 想参与开发？见 [CONTRIBUTING.md](CONTRIBUTING.md)；构建与发版由 GitHub Actions 自动完成——给仓库打 `v*` tag 即自动构建并发布 Release 安装包。
 
 > 当前版本：**v0.9.20 · 1.0 功能全部落地**（数据层去 Python 迁移 P0–P6 完成 + 四大工作台 M1–M6 完成）。
 > 下方「阶段一~七」为历史交付日志，最新功能总览见下节。
