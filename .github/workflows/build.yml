@@ -37,6 +37,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Typecheck (gate)
+        run: npm run typecheck
+
       - name: Build & package Windows installer
         run: npm run dist:win
         env:

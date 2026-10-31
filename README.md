@@ -11,6 +11,22 @@
 > 当前版本：**v0.9.20 · 1.0 功能全部落地**（数据层去 Python 迁移 P0–P6 完成 + 四大工作台 M1–M6 完成）。
 > 下方「阶段一~七」为历史交付日志，最新功能总览见下节。
 
+## 快速开始
+
+**方式一 · 直接下载安装包（推荐）**
+前往 [Releases](https://github.com/aiwendaoshe/QuantPilot/releases) 下载最新的 `QuantPilot-Setup-<version>.exe`，双击按向导安装即可。
+
+**方式二 · 从源码构建**
+```bash
+# 环境要求：Node.js 20+，Windows 10/11
+npm install
+npm run dev        # 开发模式（Electron + Vite 热更新）
+# 或构建安装包：
+npm run dist:win   # 产物位于 release/QuantPilot-Setup-<version>.exe
+```
+
+> 数据说明：首次运行会从公开行情源（腾讯 / 新浪）拉取 A 股日 K 与名单，存于**本机 SQLite，不上传任何数据**。
+
 ## 功能总览（v0.9.20）
 
 ### 行情数据层
