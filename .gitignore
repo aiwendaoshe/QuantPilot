@@ -1,0 +1,16 @@
+node_modules/
+dist/
+dist-electron/
+release/
+data/*.db
+data/*.db-journal
+data/preview/
+data/reports/
+build/
+_smoke/
+python/__pycache__/
+__pycache__/
+*.tsbuildinfo
+*.log
+.DS_Store
+.vite/

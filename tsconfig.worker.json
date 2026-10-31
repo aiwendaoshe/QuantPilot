@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "sourceMap": false,
+    "declaration": false,
+    "outDir": "dist-electron",
+    "rootDir": ".",
+    "baseUrl": ".",
+    "paths": {
+      "@shared/*": ["src/shared/*"]
+    },
+    "types": ["node"]
+  },
+  "include": [
+    "src/main/workers/**/*.ts",
+    "src/shared/**/*.ts",
+    "strategy/**/*.ts"
+  ],
+  "exclude": [
+    "strategy/demo.ts",
+    "strategy/phase2-demo.ts",
+    "strategy/phase4-worker-test.ts",
+    "strategy/phase5-limitup-test.ts"
+  ]
+}

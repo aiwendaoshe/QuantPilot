@@ -1,0 +1,56 @@
+appId: com.quantpilot.app
+productName: QuantPilot
+copyright: Copyright © 2026 QuantPilot
+
+directories:
+  output: release
+  buildResources: build
+
+asar: true
+files:
+  - dist/**
+  - dist-electron/**
+  - package.json
+  - "!**/*.map"
+
+# better-sqlite3 原生模块必须解包（asar 内无法 load .node）
+asarUnpack:
+  - "**/*.node"
+
+# v0.9.5 起不再随包发布 Python 桥：主目标就是「最终用户不需要装 Python / baostock」。
+# python/ 目录仍留在仓库里给 dev（app.isPackaged=false 时读项目根），但打包版切到 python
+# 引擎会被 dataService.setEngine 当场拒绝（返回 ok:false + 原因），不会静默跑出一个空跑。
+extraResources:
+  # 托盘图标（运行期 resources/icon/tray.png，缺失时 tray.ts 回退内置 base64 图标）
+  - from: assets/icon
+    to: icon
+    filter:
+      - "**/*"
+
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  artifactName: QuantPilot-Setup-${version}.${ext}
+  # 本机杀软/管家实时扫描刚写出的 QuantPilot.exe 时会给 rcedit 一个瞬时文件锁，
+  # 报 `Fatal error: Unable to commit changes` 并**致命中断**打包（重试 1 次也必失败）。
+  # 关掉 rcedit/sign 步骤换稳定产出；代价：EXE 属性页无版本元数据（应用内「关于」仍显示版本号）。
+  signAndEditExecutable: false
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: QuantPilot
+  uninstallDisplayName: QuantPilot ${version}
+
+mac:
+  target: dmg
+  category: public.app-category.finance
+  artifactName: QuantPilot-${version}-mac.${ext}
+
+# 暂不启用自动更新；如需发布通道可在此追加 publish(generic) 配置
+publish: null

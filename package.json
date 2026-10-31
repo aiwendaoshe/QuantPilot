@@ -1,0 +1,41 @@
+{
+  "name": "quantpilot",
+  "version": "0.9.20",
+  "description": "QuantPilot - 专业 A 股短线选股桌面软件 (Electron + Vue3 + TS + Vite)",
+  "main": "dist-electron/main.js",
+  "author": "QuantPilot Team",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && tsc -p tsconfig.worker.json",
+    "typecheck": "npm run typecheck:node && npm run typecheck:web",
+    "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false && tsc --noEmit -p tsconfig.worker.json --composite false",
+    "typecheck:web": "vue-tsc --noEmit -p tsconfig.web.json --composite false",
+    "dist:win": "npm run build && electron-builder --win"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.3.0",
+    "echarts": "^5.5.1",
+    "electron-log": "^5.1.7",
+    "electron-store": "^10.0.1",
+    "pinia": "^2.2.2",
+    "vue": "^3.4.38",
+    "vue-router": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.11",
+    "@types/node": "^20.14.0",
+    "@vitejs/plugin-vue": "^5.1.2",
+    "autoprefixer": "^10.4.20",
+    "electron": "^31.3.1",
+    "electron-builder": "^24.13.3",
+    "postcss": "^8.4.41",
+    "tailwindcss": "^3.4.10",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.2",
+    "vite-plugin-electron": "^0.29.1",
+    "vite-plugin-electron-renderer": "^0.14.5",
+    "vue-tsc": "^2.1.6"
+  }
+}
