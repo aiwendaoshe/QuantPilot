@@ -1,0 +1,12 @@
+# 统一文本行尾为 LF，避免跨平台协作冲突
+* text=auto eol=lf
+
+# 二进制资源不转换
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.icns binary
+*.exe binary
+*.dll binary
+*.node binary
