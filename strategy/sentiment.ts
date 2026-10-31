@@ -118,7 +118,7 @@ export function computeSentiment(
   };
 
   /** code|该股某日pct —— 供「昨日涨停今日表现」配对；只留最近两个交易日窗口即可，用完即清 */
-  let pctIndex = new Map<string, number>(); // `${code}|${date}` -> pct
+  const pctIndex = new Map<string, number>(); // `${code}|${date}` -> pct
   /** 涨停日 -> 该日涨停的 code 集合（供昨日涨停今表现） */
   const luCodesByDate = new Map<string, Set<string>>();
 

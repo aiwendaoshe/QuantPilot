@@ -43,7 +43,7 @@ function bar(date: string, preClose: number, ratioPct: number, opts?: Partial<Da
 /** 在涨停序列前垫 n 根横盘非涨停 K 线（绕过次新股 <6 根保护） */
 function pad(n: number, startPre: number): { bars: DailyBar[]; pre: number; day: number } {
   const bars: DailyBar[] = [];
-  let pre = startPre;
+  const pre = startPre;
   for (let i = 0; i < n; i++) {
     bars.push({
       date: `2025-12-${String(20 + i).padStart(2, '0')}`,
